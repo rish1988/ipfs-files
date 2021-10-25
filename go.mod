@@ -10,6 +10,7 @@ require (
 	github.com/ipfs/interface-go-ipfs-core v0.5.2
 	github.com/libp2p/go-libp2p-core v0.9.0
 	github.com/multiformats/go-multiaddr v0.4.1
+	github.com/rish1988/abs-path v0.1.1
 	github.com/rish1988/go-log v0.1.9
 	github.com/syndtr/goleveldb v1.0.0
 )

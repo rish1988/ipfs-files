@@ -1,7 +1,10 @@
 package ipfs
 
 import (
+	"bytes"
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"fmt"
 	config "github.com/ipfs/go-ipfs-config"
 	"github.com/ipfs/go-ipfs/core"
@@ -12,6 +15,7 @@ import (
 	icore "github.com/ipfs/interface-go-ipfs-core"
 	"github.com/libp2p/go-libp2p-core/peer"
 	ma "github.com/multiformats/go-multiaddr"
+	abspath "github.com/rish1988/abs-path"
 	ipfsconfig "github.com/rish1988/ipfs-files/config"
 	"github.com/rish1988/ipfs-files/db"
 	"github.com/rish1988/ipfs-files/log"
@@ -179,6 +183,8 @@ func (i *Ipfs) getIpfsRepo() (string, error) {
 	if i.NodeType == ipfsconfig.Ephemeral {
 		if repoPath, err = os.MkdirTemp("", "ipfs-shell"); err != nil {
 			return "", fmt.Errorf("failed to get temp dir: %s", err)
+		} else if err = i.generateSwarmKey(repoPath); err != nil {
+			return "", err
 		} else {
 			initRepo = true
 		}
@@ -192,6 +198,9 @@ func (i *Ipfs) getIpfsRepo() (string, error) {
 			} else {
 				initRepo = true
 			}
+		}
+		if err = i.generateSwarmKey(repoPath); err != nil {
+			return "", err
 		}
 	}
 
@@ -228,6 +237,60 @@ func (i *Ipfs) getIpfsRepo() (string, error) {
 	}
 
 	return repoPath, nil
+}
+
+func (i *Ipfs) generateSwarmKey(repoPath string) error {
+	var createSwarmKey = func(swarmKey, swarmKeyFile string) error {
+		if _, err := os.Stat(swarmKeyFile); err != nil {
+			if os.IsNotExist(err) {
+				if _, err = os.Create(swarmKeyFile); err != nil {
+					log.Error(err)
+					return err
+				} else {
+					var buf bytes.Buffer
+					buf.WriteString("/key/swarm/psk/1.0.0/")
+					buf.WriteByte('\n')
+					buf.WriteString("/base16/")
+					buf.WriteByte('\n')
+
+					if len(swarmKey) == 0 {
+						key := make([]byte, 32)
+						_, err = rand.Read(key)
+						if err != nil {
+							log.Errorf("While trying to read random source:", err)
+							return err
+						}
+
+						buf.WriteString(hex.EncodeToString(key))
+					} else {
+						buf.WriteString(swarmKey)
+					}
+
+					buf.WriteByte('\n')
+
+					if err = os.WriteFile(swarmKeyFile, buf.Bytes(), 0600); err != nil {
+						log.Error(err)
+						return err
+					}
+				}
+			}
+		}
+		return nil
+	}
+
+	if i.IpfsOptions.SwarmOptions != nil && i.IpfsOptions.Private {
+		swarmKeyFile := abspath.GetAbsoluteFilePath(repoPath, "swarm.key")
+
+		if len(i.IpfsOptions.Key) == 0 {
+			if err := createSwarmKey("", swarmKeyFile); err != nil {
+				return err
+			}
+		} else if err := createSwarmKey(i.IpfsOptions.Key, swarmKeyFile); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 /// ------ Spawning the ipfs

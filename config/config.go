@@ -5,6 +5,12 @@ type IpfsOptions struct {
 	NodeType           NodeType
 	BootstrapNodes     []string
 	EnableExperimental bool
+	*SwarmOptions
+}
+
+type SwarmOptions struct {
+	Private bool
+	Key string
 }
 
 type NodeType string

@@ -1209,6 +1209,8 @@ github.com/prometheus/procfs v0.7.3/go.mod h1:cz+aTbrPOrUb4q7XlbU9ygM+/jj0fzG6c1
 github.com/prometheus/statsd_exporter v0.20.0/go.mod h1:YL3FWCG8JBBtaUSxAg4Gz2ZYu22bS84XM89ZQXXTWmQ=
 github.com/prometheus/statsd_exporter v0.21.0/go.mod h1:rbT83sZq2V+p73lHhPZfMc3MLCHmSHelCh9hSGYNLTQ=
 github.com/rcrowley/go-metrics v0.0.0-20181016184325-3113b8401b8a/go.mod h1:bCqnVzQkZxMG4s8nGwiZ5l3QUCyqpo9Y+/ZMZ9VjZe4=
+github.com/rish1988/abs-path v0.1.1 h1:wNqkWjTIl2AN2Ym149cmYhMoSqmBS7v/2iI9Xa15pPc=
+github.com/rish1988/abs-path v0.1.1/go.mod h1:ttuGr7u1vmTEhmsJrt/fImwEqRMttmpyGRSXJcvaSiY=
 github.com/rish1988/go-log v0.1.9 h1:vGzvNlXqiDwoyCP3AMiAfN3bje9cKGwaRn9CUlHEEV4=
 github.com/rish1988/go-log v0.1.9/go.mod h1:qgDbYDeOGW/HxJMm7OWMT2qpkPzOsuW6YDI5u/38qtQ=
 github.com/rogpeppe/fastuuid v0.0.0-20150106093220-6724a57986af/go.mod h1:XWv6SoW27p1b0cqNHllgS5HIMJraePCO15w5zCzIWYg=
