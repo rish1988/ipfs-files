@@ -24,13 +24,13 @@ import (
 
 func main() {
 	
-	// Get a context to work with
+  // Get a context to work with
   ctx, cancel := context.WithCancel(context.context.Backround())
 	
-	// When the context is destroyed, the IPFS node is also destroyed
+  // When the context is destroyed, the IPFS node is also destroyed
   defer cancel()
 	
-	// Set some options
+  // Set some options
   opts := config.IpfsOptions {
     NodeType: config.Default,
     BootstrapNodes: []string {
@@ -41,8 +41,9 @@ func main() {
     },
     EnableExperimental: true,
   }
-	
-	ipfsApi, err := ipfs_files.IpfsNode(ctx, opts)
+
+  // Get access to Ipfs CoreAPI and FileAPI
+  ipfsApi, err := ipfs_files.IpfsNode(ctx, opts)
 }
 
 ```
