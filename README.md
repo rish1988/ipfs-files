@@ -34,6 +34,7 @@ func main() {
   opts := ipfsfiles.IpfsOptions {
     // Default or ephemeral node type
     NodeType: ipfsfiles.Default,
+    
     // Nodes to connect to
     BootstrapNodes: []string {
       "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
@@ -41,13 +42,16 @@ func main() {
       "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
       "/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt",
     },
+    
     // Enable experimental IPFS features
     EnableExperimental: true,
+    
     // Use these options to spin up private IPFS network
     // All nodes in the network share the swarm key and have 
     // access to all files
     SwarmOptions : &ipfsfiles.SwarmOptions {
     	Private: true,
+	
 	// Optionally set the key or let it be generated for you
 	Key : "f509aeebecf2547a51614e4705b2dafa44f3d04c6b23aebde1091b3002acb7ae"
     }
